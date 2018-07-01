@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -34,14 +35,16 @@ public class EmployeeController {
     
     
     
-    @GetMapping(path = "/employees" )
+    @GetMapping(path = "/employees")
+    @ResponseBody
     public ResponseEntity<List<Employees>> getAllEmployeeList(){
         List<Employees> listEmp = (List<Employees>) employeeService.getAllListEmployee();
         
         if( listEmp.isEmpty()){
+            
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(listEmp,HttpStatus.OK);
+        return new ResponseEntity<>(listEmp, HttpStatus.OK);
     }
     
 }
