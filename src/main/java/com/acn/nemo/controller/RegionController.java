@@ -8,6 +8,7 @@ package com.acn.nemo.controller;
 import com.acn.nemo.entity.Regions;
 import com.acn.nemo.services.RegionService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -34,7 +36,7 @@ public class RegionController {
     
     //@RequestMapping(method = RequestMethod.GET, value = "/regions/all")
     @GetMapping(path = "/regions/all")
-    public ResponseEntity<List<Regions>> getAllRegions(){
+    public @ResponseBody ResponseEntity<List<Regions>> getAllRegions(){
          List<Regions> listRegions = (List<Regions>) serviceRegion.getAllRegion();
          if( listRegions.isEmpty()){
              return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -46,7 +48,7 @@ public class RegionController {
     }
     
     @GetMapping(path ="/regions/{id}")
-    public ResponseEntity<Regions> getRegionsId(@PathVariable("id") String id){
+    public @ResponseBody ResponseEntity<Regions> getRegionsId(@PathVariable("id") String id){
         Regions regions = serviceRegion.getSingleRegion(id);
         if( regions == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -56,7 +58,7 @@ public class RegionController {
     
     
      @GetMapping(path ="/regions/name/{name}")
-    public ResponseEntity<List<Regions>> getRegionsByName(@PathVariable("name") String regionName){
+    public @ResponseBody ResponseEntity<List<Regions>> getRegionsByName(@PathVariable("name") String regionName){
         List<Regions> list = serviceRegion.getRegionByName(regionName);
        
         if( list.isEmpty()){
@@ -67,7 +69,7 @@ public class RegionController {
     
     
     @PostMapping(path = "/regions")
-    public ResponseEntity<Void> createRegions(@RequestBody Regions regions){
+    public ResponseEntity<Void> createRegions(@Valid @RequestBody Regions regions){
         
         if( serviceRegion.verifyRegions(regions) ){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -77,7 +79,7 @@ public class RegionController {
     }
     
     @PutMapping(path="/regions/{id}")
-    public ResponseEntity<Void> updateRegions(@RequestBody Regions regions, @PathVariable("id") String id){
+    public ResponseEntity<Void> updateRegions(@Valid @RequestBody Regions regions, @PathVariable("id") String id){
         if( serviceRegion.updateRegionsForId(regions,id) == null){
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }

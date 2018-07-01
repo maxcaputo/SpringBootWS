@@ -6,6 +6,7 @@
 package com.acn.nemo.dao;
 
 import com.acn.nemo.entity.Employees;
+import java.util.Collection;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -13,5 +14,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author massimo.caputo
  */
 public interface EmployeeDao extends CrudRepository<Employees, Integer> {
+    
     
 }
